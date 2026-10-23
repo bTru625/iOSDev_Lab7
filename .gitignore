@@ -1,0 +1,8 @@
+
+api/.venv
+
+api/venv
+
+api/student.db
+
+.vscode/task.json
