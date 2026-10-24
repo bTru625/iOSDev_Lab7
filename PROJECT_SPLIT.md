@@ -100,6 +100,10 @@ If `APIService.swift` becomes a merge point, add retrieval methods in a separate
 
 A working retrieval feature that can load all students and one student by ID.
 
+### Learning Questions (Part 48)
+
+Questions 1-10
+
 ## Person 2 — Mutation and validation slice
 
 ### Branch
@@ -139,6 +143,10 @@ If `APIService.swift` becomes a merge point, add mutation methods in a separate 
 ### Full-stack deliverable
 
 A complete create, update, and delete flow with both client- and server-side validation.
+
+### Learning Questions (Part 48)
+
+Questions 11-20
 
 ## Person 3 — Filtering and statistics slice
 
@@ -181,14 +189,18 @@ If `APIService.swift` becomes a merge point, add analytics methods in a separate
 
 A complete filtering, sorting, and statistics feature that works through the API and Swift client.
 
+### Learning Questions (Part 48)
+
+Questions 21-30
+
 ## Keeping the work parallel
 
 ### Files that should not be shared edit points
 
 Use separate files or modules for feature work whenever possible:
 
-| Feature | Flask module | Swift module |
-|---|---|---|
+| Feature   | Flask module              | Swift module                       |
+| --------- | ------------------------- | ---------------------------------- |
 | Retrieval | `api/routes/retrieval.py` | `swift/APIService+Retrieval.swift` |
 | Mutations | `api/routes/mutations.py` | `swift/APIService+Mutations.swift` |
 | Analytics | `api/routes/analytics.py` | `swift/APIService+Analytics.swift` |
@@ -225,15 +237,15 @@ Integration should happen after all three feature branches pass their own tests.
 
 ## Endpoint ownership
 
-| Method | Endpoint | Owner |
-|---|---|---|
-| GET | `/students` | Person 1 |
-| GET | `/students/{id}` | Person 1 |
-| POST | `/students` | Person 2 |
-| PUT | `/students/{id}` | Person 2 |
-| DELETE | `/students/{id}` | Person 2 |
-| GET | `/students/program/{program}` | Person 3 |
-| GET | `/students/statistics/average-age` | Person 3 |
+| Method | Endpoint                           | Owner    |
+| ------ | ---------------------------------- | -------- |
+| GET    | `/students`                        | Person 1 |
+| GET    | `/students/{id}`                   | Person 1 |
+| POST   | `/students`                        | Person 2 |
+| PUT    | `/students/{id}`                   | Person 2 |
+| DELETE | `/students/{id}`                   | Person 2 |
+| GET    | `/students/program/{program}`      | Person 3 |
+| GET    | `/students/statistics/average-age` | Person 3 |
 
 ## Final end-to-end test
 
