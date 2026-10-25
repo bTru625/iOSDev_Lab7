@@ -44,6 +44,10 @@ def init_database():
 
 
 def get_connection():
-    connection = sqlite3.connect("students.db")
+    connection = sqlite3.connect("api/students.db")
     connection.row_factory = sqlite3.Row
     return connection
+
+if __name__ == "__main__":
+    init_database()
+    app.run(host="0.0.0.0", port=3000)
