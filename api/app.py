@@ -8,7 +8,7 @@ app = Flask(__name__)
 
 
 def init_database():
-    connection = sqlite3.connect("students.db")
+    connection = sqlite3.connect("api/students.db")
     cursor = connection.cursor()
 
     cursor.execute(
@@ -49,7 +49,7 @@ def get_connection():
     return connection
 
 #Get Students
-@app.route("/students", method=["GET"])
+@app.route("/students", methods=["GET"])
 def get_students():
     connection = get_connection()
 
@@ -75,7 +75,7 @@ def get_students():
         # Who ever named the fuction jsonify() deserves a raise.
 
 
-@app.route("/students/<int:id>", method=["GET"])
+@app.route("/students/<int:id>", methods=["GET"])
 def get_student(id):
     connection = get_connection()
 
@@ -101,4 +101,5 @@ def get_student(id):
         })
 
 
-        
+if __name__ == "__main__":
+    init_database()
