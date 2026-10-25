@@ -3,6 +3,6 @@ api/.venv
 
 api/venv
 
-api/student.db
+api/students.db
 
 .vscode/task.json

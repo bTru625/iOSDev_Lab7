@@ -44,7 +44,7 @@ def init_database():
 
 
 def get_connection():
-    connection = sqlite3.connect("students.db")
+    connection = sqlite3.connect("api/students.db")
     connection.row_factory = sqlite3.Row
     return connection
 
@@ -103,3 +103,63 @@ def get_student(id):
 
 if __name__ == "__main__":
     init_database()
+
+#Get Students
+@app.route("/students", methods=["GET"])
+def get_students():
+    connection = get_connection()
+
+
+    students = connection.execute(
+        "SELECT * from students"
+    ).fetchall()
+
+    connection.close()
+
+    result = []
+
+    for student in students:
+        
+        result.append({
+            "id": student["id"],
+            "name" : student["name"],
+            "program" : student["program"], 
+            "age" : student ["age"]
+        })
+
+        return jsonify(result)
+        # Who ever named the fuction jsonify() deserves a raise.
+
+
+@app.route("/students/<int:id>", methods=["GET"])
+def get_student(id):
+    connection = get_connection()
+
+
+    students = connection.execute(
+        "SELECT * from students WHERE id = ?", 
+        (id,)
+    ).fetchone()
+
+    connection.close()
+
+    if student is None:
+        return jsonify ({
+            "message": "No student found with that id"
+        }), 404
+
+        
+        return jsonify({
+            "id": student["id"],
+            "name" : student["name"],
+            "program" : student["program"], 
+            "age" : student ["age"]
+        })
+
+
+if __name__ == "__main__":
+    init_database()
+
+if __name__ == "__main__":
+    init_database()
+    app.run(host="0.0.0.0", port=3000)
