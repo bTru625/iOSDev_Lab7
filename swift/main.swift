@@ -142,31 +142,31 @@ while isRunning {
             
             continue 
 
-        case: "3":        // display all
+        case: "3":        // add student
             
             continue
 
-        case: "4":        // find student by ID
+        case: "4":        // update student
               
             continue 
 
-        case: "5":        // display all
+        case: "5":        // delete student
             
             continue
   
-        case: "6":        // find student by ID
+        case: "6":        // filter by program
             
             continue 
 
-        case: "7":        // display all
+        case: "7":        // sort by age
             
             continue
 
-        case: "8":        // find student by ID
+        case: "8":        // display stats
             
             continue 
 
-        case: "x" || "X" || "0":         // exit
+        case: "x" || "X" || "0":       // exit
             
             isRunning = false
             
