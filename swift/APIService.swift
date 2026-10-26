@@ -66,7 +66,7 @@ class APIService {
     }
 
 
-    func getStudent() async throws -> [Student] {
+    func getStudents() async throws -> [Student] {
         
         guard let url = URL (
             string: "\(baseURL)/students"
@@ -127,7 +127,4 @@ class APIService {
 
 
 
-
-
-    
 }

@@ -5,7 +5,7 @@ let api = APIService()
 func validateStudent(
     name: String, 
     program: String, 
-    age: Int``
+    age: Int
 ) -> Bool {
 
     if name 
@@ -54,7 +54,7 @@ __________________________________
 |________________________________|
 """)
 
-sleep(3.25) 
+try await Task.sleep(for: .seconds(3.25)) 
 
 // clear screen 
 print("\u{001B}[3J\u{001B}[2J\u{001B}[H", terminator: "")
@@ -67,8 +67,6 @@ var isRunning = true
 while isRunning {
         
     print ("""
-
-
             ▄▄▄▄  ▄        ▄          ▄      
             █     █        █          █      
             █▄▄▄ ▄█▄ ▄ ▄ ▄▄█ ▄▄▄ ▄▄▄ ▄█▄     
@@ -111,7 +109,8 @@ while isRunning {
 
     switch choice{
 
-        case: "1":        // display all
+        //display all
+        case "1":
             
             do{
 
@@ -137,36 +136,42 @@ while isRunning {
                 print ("Error: \(error)")
             }            
 
-
-        case: "2":        // find student by ID
+        //find student by ID
+        case "2":        
             
             continue 
 
-        case: "3":        // add student
+        //add student
+        case "3":        
             
             continue
 
-        case: "4":        // update student
+        //update student
+        case "4":        
               
             continue 
-
-        case: "5":        // delete student
+        // delete student
+        case "5":        
             
             continue
   
-        case: "6":        // filter by program
+        // filter by program
+        case "6":        
             
             continue 
 
-        case: "7":        // sort by age
+        //sort by age
+        case "7":        
             
             continue
 
-        case: "8":        // display stats
+        //display stats
+        case "8":        
             
             continue 
 
-        case: "x" || "X" || "0":       // exit
+        //exit
+        case "x", "X", "0":       
             
             isRunning = false
             
@@ -174,8 +179,8 @@ while isRunning {
             print("Exiting Application")
 
 
-
-        default:        // invalid input
+        //invalid input
+        default:        
             print("Invalid Input:")
 
     }

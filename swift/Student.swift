@@ -1,4 +1,4 @@
-import foundation
+import Foundation
 
 struct Student: Codable {
 
