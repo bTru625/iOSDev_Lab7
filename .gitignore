@@ -8,3 +8,7 @@ api/students.db
 .vscode/task.json
 
 app.exe
+
+app.exp
+
+app.lib
