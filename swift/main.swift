@@ -60,6 +60,7 @@ sleep(3.25)
 print("\u{001B}[3J\u{001B}[2J\u{001B}[H", terminator: "")
 
 
+// start of actual console menu app:
 var isRunning = true
 
 
@@ -82,19 +83,19 @@ while isRunning {
                       ▄▄█                      
 
     ===========================================
-                MAIN MENU:
+                    MAIN MENU:
     ===========================================
 
-        1. Display all students
-        2. Search student by ID
-        3. Add student
-        4. Update student
-        5. Delete student
-        6. Filter by program
-        7. Sort by age
-        8. Display statistics
+            1. Display all students
+            2. Search student by ID
+            3. Add student
+            4. Update student
+            5. Delete student
+            6. Filter by program
+            7. Sort by age
+            8. Display statistics
 
-        X. Exit
+            X. Exit
     ___________________________________________
 
     Choose an option:
@@ -112,7 +113,30 @@ while isRunning {
 
         case: "1":        // display all
             
-            continue
+            do{
+
+                let students = try await api.getStudents()
+
+                if students.isEmpty {
+                   
+                    print ("No students found.")
+
+                } else {
+                    for student in students {
+
+                        print (
+                            "ID: \(student.id) - " + 
+                            "\(student.name) - " +
+                            "\(student.program) - " + 
+                            "\(student.age) years old"
+                        )
+                    }
+                }
+            } catch {
+                
+                print ("Error: \(error)")
+            }            
+
 
         case: "2":        // find student by ID
             
@@ -142,7 +166,7 @@ while isRunning {
             
             continue 
 
-        case: "x" || "X": // exit
+        case: "x" || "X" || "0":         // exit
             
             isRunning = false
             
@@ -150,9 +174,10 @@ while isRunning {
             print("Exiting Application")
 
 
+
         default:        // invalid input
+            print("Invalid Input:")
+
     }
-
-
 }
 
