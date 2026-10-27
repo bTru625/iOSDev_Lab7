@@ -10,7 +10,7 @@ class APIService {
     /*    nvm, dont look into it, this is the redundant FN
 
     private func decode <t: Decodable> (
-        type: T.type, from data: Data
+        type: T.Type, from data: Data
     ) throws -> T {
 
 
@@ -27,7 +27,7 @@ class APIService {
     */
 
     private func decode<T: Decodable>(
-        _ type: T.type, from data: Data
+        _ type: T.Type, from data: Data
     ) throws -> T {
 
         do {
@@ -102,7 +102,7 @@ class APIService {
             string: "\(baseURL)/student/\(id)"
             ) else {
 
-                throw APIError.InvalidURL
+                throw APIError.invalidURL
             }
 
             do {
