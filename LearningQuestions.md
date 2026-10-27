@@ -20,25 +20,25 @@
 
 10.
 
-11.
+11. Content-Type: application/json required?
 
-12.
+12. What is the purpose of async ?
 
-13.
+13. What is the purpose of await ?
 
-14.
+14. What is the purpose of throws ?
 
-15.
+15. What does try mean?
 
-16.
+16. Why are network calls placed inside do-catch ?
 
-17.
+17. What is the role of validateResponse ?
 
-18.
+18. Why must validation occur in Swift and Flask?
 
-19.
+19. What does map do in displayStatistics ?
 
-20.
+20. What does reduce do?
 
 21.
 

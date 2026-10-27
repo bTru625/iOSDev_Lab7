@@ -146,3 +146,146 @@ def get_average_age():
 if __name__ == "__main__":
     init_database()
     app.run(host="0.0.0.0", port=3000)    
+
+
+def validate_student(data):
+    if "name" not in data:
+        return "Name is required"
+    
+    if "program" not in data:
+        return "Program is required"
+    
+    if "age" not in data:
+        return "Age is required"
+    
+    if data["name"].strip() == "":
+        return "Name cannot be empty"
+    
+    if data["program"].strip() == "":
+        return "Program cannot be empty"
+    
+    if not isinstance(data["age"], int):
+        return "Age must be an integer"
+    
+    if data["age"] < 16 or data["age"] > 100:
+        return "Age must be between 16 and 100"
+    
+    return None
+
+#add_one_student_to_db
+@app.route("/students", methods=["POST"])
+def add_student():
+    data = request.get_json()
+    error = validate_student(data)
+    if error is not None:
+        return jsonify({
+            "message": error
+        }), 400
+    connection = get_connection()
+
+    cursor = connection.cursor()
+    cursor.execute(
+        """
+        INSERT INTO students(name, program, age)
+        VALUES (?, ?, ?)
+        """,
+        (
+            data["name"],
+            data["program"],
+            data["age"]
+        )
+    )
+    connection.commit()
+
+    new_id = cursor.lastrowid
+
+    connection.close()
+
+    return jsonify({
+        "id": new_id,
+        "name": data["name"],
+        "program": data["program"],
+        "age": data["age"]
+    }), 201
+
+#update_student_info
+@app.route("/students/<int:id>", methods = ["PUT"])
+def update_student(id):
+    data = request.get_json()
+    
+    error = validate_student(data)
+
+    if error is not None: 
+
+        return jsonify({
+            "message": error
+        }), 400
+
+    connection = get_connection()
+
+    student = connection.execute(
+        "SELECT * FROM students WHERE id = ?",
+        (id, )
+    ).fetchone()
+
+    if student is None:
+
+        connection.close()
+
+        return jsonify({
+            "message": "Student not found"
+        }), 404
+
+    connection.execute(
+        """
+        UPDATE students
+        SET name = ?, program = ?, age = ?
+        WHERE id = ?
+        """,
+        (
+            data["name"],
+            data["program"],
+            data["age"],
+            id
+        )
+    )
+
+    connection.commit()
+    connection.close()
+
+    return jsonify({
+        "id": id,
+        "name": data["name"],
+        "program": data["program"],
+        "age": data["age"]
+    })
+
+#delete_student_info
+@app.route("/students/<int:id>", methods=["DELETE"])
+def delete_student(id):
+
+    connection = get_connection()
+
+    student = connection.execute(
+        "SELECT * FROM student WHERE id = ?",
+        (id,)
+    ).fetchone()
+
+    if student is None:
+        connection.close()
+
+        return jsonify({
+            "message": "Student not found"
+        }), 404
+
+    connection.execute(
+        "DELETE FROM students WHERE id = ?",
+        (id,)
+    )
+
+    connection.commit()
+    connection.close()
+
+    return jsonify({
+        "message": "Student deleted succesfully"
+    })

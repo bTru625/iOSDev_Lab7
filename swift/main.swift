@@ -144,16 +144,134 @@ while isRunning {
         //add student
         case "3":        
             
-            continue
+            print("Enter name:")
+
+            let name = readLine()?? ""
+            
+            print("Enter age:")
+
+            guard let ageInput = readLine(),
+                let age = Int(ageInput) else {
+                    
+                    print("Age must be an integer.")
+
+                    continue
+                }
+
+            if validateStudent(
+                name: name,
+                program: program,
+                age: age
+            ) {
+                let newStudent = NewStudent(
+                    name: name,
+                    program: program,
+                    age: age
+                )
+
+                do {
+
+                    let student = 
+                        try await api.addStudent(
+                            newStdudent
+                        )
+                    print(
+                        "Student created succesfully" 
+                    )
+
+                    print(
+                         "\(student.id) - " +                    
+                         "\(student.name) - " +                    
+                         "\(student.program) - " +                    
+                         "\(student.age)"
+                    )
+                } catch {
+                    print("Error: \(error)")
+                }
+            }
 
         //update student
         case "4":        
+
+            print("Enter sutdent ID:")
               
-            continue 
+            guard let idInput = readLine(),
+                let id = Int(idInput) else {
+
+                    print("Invalid ID.")
+
+                    continue
+                } 
+
+            print("Enter new name:")
+             
+            let name = readLine() ?? ""
+
+            print("Enter new program:")
+
+            let program = readLine() ?? ""
+
+            print("Enter new age:")
+
+            guard let ageInput = readLine(), 
+                let age = Int(ageInput) else {
+
+                    print("Age must be an integer.")
+
+                    continue
+                }
+            if validateStudent(
+                name: name,
+                program: program,
+                age: age
+            ) {
+                let updatedData = NewStudent(
+                    name: name,
+                    program: program,
+                    age: age
+                )
+
+                do {
+                    let student = 
+                        try await api.updateStudent(
+                            id: id,
+                            student: updatedData
+                        )
+
+                    print(
+                        "Student updated successfully."
+                    )
+
+                    print(
+                          "\(student.id) - " +                    
+                          "\(student.name) - " +                    
+                          "\(student.program) - " +                    
+                          "\(student.age)"
+                    )
+                } catch {
+                    print("Error: \(error)")
+                }
+            }
         // delete student
         case "5":        
             
-            continue
+            print("Enter student ID:")
+
+            guard let input = readLine(),
+                let id = Int(input) else {
+                    
+                    print("Invalid ID.")
+                    
+                    continue
+                }
+            do {
+                let message =
+                    try await api.deleteStudent(id: id)
+
+                print(message)
+            } catch {
+                print("Error: \(error)")
+            }
   
         // filter by program
         case "6":        
