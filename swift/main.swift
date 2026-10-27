@@ -45,13 +45,13 @@ func validateStudent(
 
 //Welcome msg / splash screen
 print("""
-__________________________________
-| Student Management Application |
-|   420-DM5-AS iOS Development   |
-|                                |
-| Edward Angeles, Shayan Delbari |
-|       and Brett Trudel         |
-|________________________________|
+      __________________________________
+      | Student Management Application |
+      |   420-DM5-AS iOS Development   |
+      |                                |
+      | Edward Angeles, Shayan Delbari |
+      |       and Brett Trudel         |
+      |________________________________|
 """)
 
 try await Task.sleep(for: .seconds(3.25)) 
@@ -140,9 +140,34 @@ while isRunning {
             }            
 
         //find student by ID
-        case "2":        
+        case "2":
+
+        print ("Enter student ID:")
+
+        guard let input = readLine(), 
+            let  id = Int(input) else {
+
+                print("Invalid ID")
+
+                continue
+            }       
+
+            do {
+
+                let student = try await api.getStudent(id:id)
+
+                print (
+                        "ID: \(student.id) - " + 
+                        "\(student.name) - " +
+                        "\(student.program) - " + 
+                        "\(student.age) years old"
+                    )
+            } catch {
+
+                print ("Error: \(error)")
+            }
+
             
-            continue 
 
         //add student
         case "3":        
@@ -183,7 +208,7 @@ while isRunning {
                             newStudent
                         )
                     print(
-                        "Student created succesfully" 
+                        "Student created successfully" 
                     )
 
                     print(
@@ -200,7 +225,7 @@ while isRunning {
         //update student
         case "4":        
 
-            print("Enter sutdent ID:")
+            print("Enter student ID:")
               
             guard let idInput = readLine(),
                 let id = Int(idInput) else {

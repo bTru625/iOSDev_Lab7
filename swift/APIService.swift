@@ -68,7 +68,7 @@ class APIService {
         }
     }
 
-
+    //GET ALL
     func getStudents() async throws -> [Student] {
         
         guard let url = URL (
@@ -98,7 +98,7 @@ class APIService {
             }
     }
 
-
+    //GET by id
     func getStudent (id: Int) async throws -> Student {
 
         guard let url = URL(
