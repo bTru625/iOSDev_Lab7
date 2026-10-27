@@ -103,31 +103,195 @@ class APIService {
 
         guard let url = URL(
             string: "\(baseURL)/student/\(id)"
+            ) else {
+
+                throw APIError.invalidURL
+            }
+
+            do {
+
+                let (data, response) = try await URLSession.shared.data(from: url)
+
+                try validateResponse(response)
+
+                return try decode(
+                    Student.self,
+                    from: data
+                )
+                
+            } catch let error as APIError{
+
+                throw error
+            } catch {
+
+                throw APIError.networkError
+            }
+    }
+
+
+    //POST
+    func addStudent (_ newStudent: NewStudent) async throws -> Student {
+        
+        guard let url = URL(
+
+            string: "\(baseURL)/students"
+
         ) else {
 
             throw APIError.invalidURL
+
+        }
+
+        var request = URLRequest(url: url)
+
+        request.httpMethod = "POST"
+
+        request.setValue(
+            "application/json",
+            forHTTPHeaderField: "Content-Type"
+        )
+        do {
+            request.httpBody = 
+            try JSONEncoder().encode(
+                newStudent
+                )
+        } catch {
+
+            throw APIError.encodingError
         }
 
         do {
-
-            let (data, response) = try await URLSession.shared.data(from: url)
+            let (data, response) = 
+                try await URLSession.shared.data(
+                    for: request
+                )
 
             try validateResponse(response)
 
             return try decode(
-                Student.self,
-                from: data
-            )
+                Student.self, from: data
+            ) 
+        } catch let error as APIError {
             
-        } catch let error as APIError{
-
             throw error
+        
         } catch {
 
+            throw APIError.networkError
+        
+        }
+    }
+
+    //PUT
+    func updateStudent (id: Int, student: NewStudent) async throws -> Student {
+        guard let url = URL(
+            string: "\(baseURL)/students/\(id)"
+        ) else {
+            throw APIError.invalidURL
+        }
+
+        var request = URLRequest(url: url)
+
+        request.httpMethod = "PUT"
+
+        request.setValue(
+            "application/json",
+            forHTTPHeaderField: "Content-Type"
+        )
+
+        do {
+            request.httpBody = try JSONEncoder().encode(
+                student
+            )
+        } catch {
+
+            throw APIError.encodingError
+        
+        }
+
+        do {
+            let (data, response) = 
+                try await URLSession.shared.data(
+                    for: request 
+                )
+
+            try validateResponse(response)
+            
+            return try decode(
+                Student.self,
+                from:data
+            )
+        } catch let error as APIError {
+
+            throw error
+
+        } catch  {
+            
+            throw APIError.networkError 
+
+        }
+    }
+
+    //DELETE
+    func deleteStudent (id: Int) async throws -> String {
+
+        guard let url = URL(
+            string:"\(baseURL)/students/\(id)"
+        ) else {
+            throw APIError.invalidURL 
+        }
+
+        var request = URLRequest(url : url)
+
+        request.httpMethod = "DELETE"
+
+        do {
+            let (data, response) = 
+                try await URLSession.shared.data (
+                    for: request
+                )
+
+            try validateResponse(response)
+
+            let result = try decode(
+                MessageResponse.self,
+                from: data
+            )
+
+            return result.message
+        } catch let error as APIError {
+            throw error
+        } catch {
             throw APIError.networkError
         }
     }
 
+    func validateStudent(
+        name: String,
+        program: String,
+        age: Int
+    ) -> Bool {
+        if name
+            .trimmingCharacters(in: .whitespaces)
+            .isEmpty {
+                print("Name cannot be empty")
+                return false
+            }
+
+        if program
+            .trimmingCharacters(in: .whitespaces)
+            .isEmpty {
+                print("Program cannot be empty")
+                return false
+            }
+
+        if age < 16 || age > 100 {
+            print("Age must be between 16 and 100")
+            return false
+        }
+
+        return true
+    }
 
     
 }

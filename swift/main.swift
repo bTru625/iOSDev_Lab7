@@ -26,9 +26,9 @@ func validateStudent(
             return false
     }
 
-    if age < 15 || age > 100 {
+    if age < 16 || age > 100 {
 
-        print ("Age must be between 15 and 100")
+        print ("Age must be between 16 and 100")
 
         return false
     }
@@ -149,7 +149,11 @@ while isRunning {
             
             print("Enter name:")
 
-            let name = readLine()?? ""
+            let name = readLine() ?? ""
+
+            print("Enter program:")
+
+            let program = readLine() ?? ""
             
             print("Enter age:")
 
@@ -176,7 +180,7 @@ while isRunning {
 
                     let student = 
                         try await api.addStudent(
-                            newStdudent
+                            newStudent
                         )
                     print(
                         "Student created succesfully" 
