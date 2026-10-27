@@ -5,6 +5,14 @@ api/venv
 
 students.db
 
+students.db
+
+student.db
+
 .vscode/task.json
 
 app.exe
+
+app.exp
+
+app.lib
