@@ -287,7 +287,7 @@ def delete_student(id):
     connection = get_connection()
 
     student = connection.execute(
-        "SELECT * FROM student WHERE id = ?",
+        "SELECT * FROM students WHERE id = ?",
         (id,)
     ).fetchone()
 
