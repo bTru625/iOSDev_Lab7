@@ -159,19 +159,65 @@ while isRunning {
             continue
   
         // filter by program
-        case "6":        
-            
-            continue 
+        case "6":
+            var program: String? = nil
+            print("Enter a program:")
+            while program == nil || program?.isEmpty ?? true {
+                program = readLine()?.trimmingCharacters(in: .whitespaces) ?? nil
+            }
+
+            guard let program else {
+                continue
+            }
+
+            do {
+                let students = try await api.getStudentsByProgram(program: program)
+
+                if students.isEmpty {
+                    print ("No students found.")
+                } else {
+                    for student in students {
+                        print(
+                            "ID: \(student.id) - " + 
+                            "\(student.name) - " +
+                            "\(student.program) - " + 
+                            "\(student.age) years old"
+                        )
+                    }
+                }
+            } catch {
+                print("Error: \(error)")
+            }
 
         //sort by age
-        case "7":        
-            
-            continue
+        case "7":
+            do {
+                let students = try await api.getStudentsSortedByAge()
+
+                if students.isEmpty {
+                    print("No students found.")
+                } else {
+                    for student in students {
+                        print(
+                            "ID: \(student.id) - " +
+                            "\(student.name) - " +
+                            "\(student.program) - " +
+                            "\(student.age) years old"
+                        )
+                    }
+                }
+            } catch {
+                print("Error: \(error)")
+            }
 
         //display stats
-        case "8":        
-            
-            continue 
+        case "8":
+            do {
+                let average = try await api.getAverageAge()
+                print("Average age: \(average)")
+            } catch {
+                print("Error: \(error)")
+            }
 
         //exit
         case "x", "X", "0":       
