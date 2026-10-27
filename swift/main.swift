@@ -161,6 +161,7 @@ while isRunning {
         // filter by program
         case "6":
             var program: String? = nil
+            print("Enter a program:")
             while program == nil || program?.isEmpty ?? true {
                 program = readLine()?.trimmingCharacters(in: .whitespaces) ?? nil
             }
@@ -197,7 +198,7 @@ while isRunning {
         case "8":
             do {
                 let average = try await api.getAverageAge()
-                print("Average: \(average)")
+                print("Average age: \(average)")
             } catch {
                 print("Error: \(error)")
             }
