@@ -1,5 +1,8 @@
 import Foundation
-import FoundationNetworking 
+
+#if canImport(FoundationNetworking)
+import FoundationNetworking
+#endif
 
 class APIService {
 
@@ -100,31 +103,74 @@ class APIService {
 
         guard let url = URL(
             string: "\(baseURL)/student/\(id)"
-            ) else {
+        ) else {
 
-                throw APIError.InvalidURL
-            }
+            throw APIError.invalidURL
+        }
 
-            do {
+        do {
 
-                let (data, response) = try await URLSession.shared.data(from: url)
+            let (data, response) = try await URLSession.shared.data(from: url)
 
-                try validateResponse(response)
+            try validateResponse(response)
 
-                return try decode(
-                    Student.self,
-                    from: data
-                )
-                
-            } catch let error as APIError{
+            return try decode(
+                Student.self,
+                from: data
+            )
+            
+        } catch let error as APIError{
 
-                throw error
-            } catch {
+            throw error
+        } catch {
 
-                throw APIError.networkError
-            }
+            throw APIError.networkError
+        }
     }
 
+    func getStudentsByProgram(program: String) async throws -> [Student] {
+        guard let url = URL(
+            string: "\(baseURL)/students/program/\(program)",
+        ) else {
+            throw APIError.invalidURL
+        }
+
+        do {
+            let (data, response) = try await URLSession.shared.data(from: url)
+            try validateResponse(response)
+            
+            return try decode(
+                [Student].self,
+                from: data
+            )
+        } catch let error as APIError {
+            throw error
+        } catch {
+            throw APIError.networkError
+        }
+    }
+
+    func getAverageAge() async throws -> Student {
+        guard let url = URL(
+            string: "\(baseURL)/students/statistics/average-age",
+        ) else {
+            throw APIError.invalidURL
+        }
+
+        do {
+            let (data, response) = try await URLSession.shared.data(from: url)
+            try validateResponse(response)
+
+            return try decode(
+                Student.self,
+                from: data
+            )
+        } catch let error as APIError {
+            throw error
+        } catch {
+            throw APIError.networkError
+        }
+    }
 
 
 }

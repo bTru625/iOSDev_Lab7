@@ -111,7 +111,7 @@ def get_students_by_program(program):
     students = cursor.execute(
         """
         SELECT * FROM students
-        WHERE students.program = ?
+        WHERE students.program = LOWER(?)
         """,
         (program,),
     ).fetchall()
