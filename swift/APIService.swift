@@ -178,5 +178,27 @@ class APIService {
         }
     }
 
+    func getStudentsSortedByAge() async throws -> [Student] {
+        guard let url = URL(
+            string: "\(baseURL)/students/sort/age"
+        ) else {
+            throw APIError.invalidURL
+        }
+
+        do {
+            let (data, response) = try await URLSession.shared.data(from: url)
+            try validateResponse(response)
+
+            return try decode(
+                [Student].self,
+                from: data
+            )
+        } catch let error as APIError {
+            throw error
+        } catch {
+            throw APIError.networkError
+        }
+    }
+
 
 }

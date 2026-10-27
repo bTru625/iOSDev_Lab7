@@ -129,6 +129,29 @@ def get_students_by_program(program):
     return jsonify(result)
 
 
+@app.route("/students/sort/age", methods=["GET"])
+def get_students_sorted_by_age():
+    connection = get_connection()
+
+    students = connection.execute(
+        "SELECT * FROM students ORDER BY age ASC"
+    ).fetchall()
+
+    connection.close()
+
+    result = []
+
+    for student in students:
+        result.append({
+            "id": student["id"],
+            "name": student["name"],
+            "program": student["program"],
+            "age": student["age"],
+        })
+
+    return jsonify(result)
+
+
 @app.route("/students/statistics/average-age", methods=["GET"])
 def get_average_age():
     connection = get_connection()

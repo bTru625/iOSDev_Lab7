@@ -190,9 +190,25 @@ while isRunning {
             }
 
         //sort by age
-        case "7":        
-            
-            continue
+        case "7":
+            do {
+                let students = try await api.getStudentsSortedByAge()
+
+                if students.isEmpty {
+                    print("No students found.")
+                } else {
+                    for student in students {
+                        print(
+                            "ID: \(student.id) - " +
+                            "\(student.name) - " +
+                            "\(student.program) - " +
+                            "\(student.age) years old"
+                        )
+                    }
+                }
+            } catch {
+                print("Error: \(error)")
+            }
 
         //display stats
         case "8":
