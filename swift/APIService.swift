@@ -266,6 +266,78 @@ class APIService {
         }
     }
 
+    func getStudentsByProgram(program: String) async throws -> [Student] {
+        guard let url = URL(
+            string: "\(baseURL)/students/program/\(program)",
+        ) else {
+            throw APIError.invalidURL
+        }
+
+        do {
+            let (data, response) = try await URLSession.shared.data(from: url)
+            try validateResponse(response)
+            
+            return try decode(
+                [Student].self,
+                from: data
+            )
+        } catch let error as APIError {
+            throw error
+        } catch {
+            throw APIError.networkError
+        }
+    }
+
+    func getAverageAge() async throws -> Double {
+        guard let url = URL(
+            string: "\(baseURL)/students/statistics/average-age",
+        ) else {
+            throw APIError.invalidURL
+        }
+
+        do {
+            let (data, response) = try await URLSession.shared.data(from: url)
+            try validateResponse(response)
+
+            let result = try decode(
+                [String: Double].self,
+                from: data
+            )
+
+            guard let averageAge = result["average_age"] else {
+                throw APIError.decodingError
+            }
+
+            return averageAge
+        } catch let error as APIError {
+            throw error
+        } catch {
+            throw APIError.networkError
+        }
+    }
+
+    func getStudentsSortedByAge() async throws -> [Student] {
+        guard let url = URL(
+            string: "\(baseURL)/students/sort/age"
+        ) else {
+            throw APIError.invalidURL
+        }
+
+        do {
+            let (data, response) = try await URLSession.shared.data(from: url)
+            try validateResponse(response)
+
+            return try decode(
+                [Student].self,
+                from: data
+            )
+        } catch let error as APIError {
+            throw error
+        } catch {
+            throw APIError.networkError
+        }
+    }
+
     func validateStudent(
         name: String,
         program: String,

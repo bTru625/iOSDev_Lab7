@@ -9,7 +9,7 @@ students.db
 
 student.db
 
-.vscode/task.json
+.vscode/*
 
 app.exe
 
